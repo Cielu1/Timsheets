@@ -84,6 +84,15 @@
 
     customElements.define('header-component', HeaderComponent);
     customElements.define('footer-component', FooterComponent);
+    
+    function navigateToEdit(button) {
+      const tile = button.closest('.tile');
+      const projectName = tile.dataset.project;
+      const projectDate = tile.dataset.date;
+      const url = `TimesheetsEdit.html?date=${encodeURIComponent(projectDate)}&project=${encodeURIComponent(projectName)}`;
+      window.location.href = url;
+    }
+
   </script>
 
   <style>
@@ -340,7 +349,7 @@
           <span class="project-name">Project Alpha</span>
         </div>
         <span class="status-chip draft">Draft</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
 
       <div class="tile" data-project="Project Beta" data-status="Submitted" data-date="2024-12-27">
@@ -349,7 +358,7 @@
           <span class="project-name">Project Beta</span>
         </div>
         <span class="status-chip submitted">Submitted</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
 
       <div class="tile" data-project="Project Gamma" data-status="Approved" data-date="2024-12-24">
@@ -358,7 +367,7 @@
           <span class="project-name">Project Gamma</span>
         </div>
         <span class="status-chip approved">Approved</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
 
       <div class="tile" data-project="Project Delta" data-status="Draft" data-date="2024-12-20">
@@ -367,7 +376,7 @@
           <span class="project-name">Project Delta</span>
         </div>
         <span class="status-chip draft">Draft</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
 
       <div class="tile" data-project="Project Epsilon" data-status="Submitted" data-date="2024-12-01">
@@ -376,7 +385,7 @@
           <span class="project-name">Project Epsilon</span>
         </div>
         <span class="status-chip submitted">Submitted</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
 
       <div class="tile" data-project="Project Zeta" data-status="Approved" data-date="2024-11-15">
@@ -385,7 +394,7 @@
           <span class="project-name">Project Zeta</span>
         </div>
         <span class="status-chip approved">Approved</span>
-        <button class="edit-button">✏️</button>
+        <button class="edit-button" onClick="navigateToEdit(this)">✏️</button>
       </div>
     </div>
   </div>

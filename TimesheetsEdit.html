@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Timesheet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .header {
+      background-color: #e0e0e0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 15px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .header-back {
+      font-size: 24px;
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+    }
+
+    .footer {
+      background-color: #e0e0e0;
+      height: 60px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .info {
+      font-size: 16px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <a href="Timesheets.html" class="header-back">&#8592;</a>
+    <span class="header-title">Edit Timesheet</span>
+    <div></div>
+  </div>
+
+  <div class="container">
+    <div id="selected-date" class="info">Loading date...</div>
+    <div id="selected-project" class="info">Loading project...</div>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2023 Your Company</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        // Pobranie parametrów z URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedDate = urlParams.get('date');
+        const selectedProject = urlParams.get('project');
+
+        // Aktualizacja elementów na stronie
+        const dateElement = document.getElementById('selected-date');
+        const projectElement = document.getElementById('selected-project');
+
+        if (selectedDate) {
+          dateElement.textContent = `Date: ${selectedDate}`;
+        } else {
+          dateElement.textContent = 'No date provided';
+        }
+
+        if (selectedProject) {
+          projectElement.textContent = `Project: ${selectedProject}`;
+        } else {
+          projectElement.textContent = 'No project provided';
+        }
+      } catch (error) {
+        console.error('Error parsing URL parameters:', error);
+        document.getElementById('selected-date').textContent = 'Error loading date';
+        document.getElementById('selected-project').textContent = 'Error loading project';
+      }
+    });
+  </script>
+</body>
+</html>
