@@ -4,6 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timesheets</title>
+    <script>
+        class HeaderComponent extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        .header {
+                            background-color: #e0e0e0;
+                            height: 60px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 0 15px;
+                            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .user-icon {
+                            width: 40px;
+                            height: 40px;
+                            background-color: #0078d7;
+                            color: white;
+                            font-weight: bold;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 50%;
+                        }
+
+                        .hamburger {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-around;
+                            width: 30px;
+                            height: 25px;
+                            background: transparent;
+                            border: none;
+                            cursor: pointer;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+
+                        .hamburger div {
+                            width: 30px;
+                            height: 3px;
+                            background-color: #0078d7;
+                            border-radius: 5px;
+                        }
+                    </style>
+                    <div class="header">
+                        <a href="MainPage.html" style="text-decoration: none; color: black;">
+                            <span style="font-size: 24px; cursor: pointer;">&#8592;</span>
+                        </a>
+                        <button class="hamburger">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        class FooterComponent extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        .footer {
+                            background-color: #e0e0e0;
+                            height: 60px;
+                            position: fixed;
+                            bottom: 0;
+                            width: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+                        }
+                    </style>
+                    <div class="footer">
+                        <p>&copy; 2023 Your Company</p>
+                    </div>
+                `;
+            }
+        }
+
+        customElements.define('header-component', HeaderComponent);
+        customElements.define('footer-component', FooterComponent);
+    </script>
     <style>
         body {
             margin: 0;
@@ -12,76 +103,49 @@
             overflow-y: scroll;
         }
 
-        .header {
-            background-color: #d3d3d3;
-            color: black;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .user-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #0078d7;
-            color: white;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 18px;
-        }
-
-        .hamburger-menu {
-            width: 25px;
-            height: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .hamburger-menu div {
-            height: 4px;
-            background-color: black;
-            border-radius: 2px;
-        }
-
-        .footer {
-            background-color: #d3d3d3;
-            color: black;
-            height: 60px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-        }
-
         .container {
             padding: 120px 15px 80px 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 30px;
         }
 
         .filters {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            align-items: center;
+            /* Można dodać justify-content: flex-start; w razie potrzeby
+               dla pewności, że elementy będą ustawione przy lewej krawędzi.
+            */
         }
 
-        .filters select, .filters input {
-            padding: 5px;
-            height: 30px;
+        .filter-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-wrapper input,
+        .filter-wrapper select {
+            padding: 10px;
+            height: 40px;
             font-size: 14px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            width: 100%;
+        }
+
+        .filter-wrapper .clear-filter {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            color: #666;
+            cursor: pointer;
         }
 
         .tile {
@@ -89,7 +153,8 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -101,20 +166,20 @@
         }
 
         .status-dropdown {
-            height: 30px;
-            padding: 5px;
+            height: 40px;
+            padding: 10px;
             font-size: 14px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
         .project-name {
-            font-size: 14px;
+            font-size: 16px;
             color: #333;
         }
 
         .project-date {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             color: #666;
             margin-bottom: 5px;
@@ -124,8 +189,8 @@
             display: inline-block;
             background-color: #28a745;
             color: white;
-            font-size: 12px;
-            padding: 5px 10px;
+            font-size: 14px;
+            padding: 7px 15px;
             border-radius: 15px;
         }
 
@@ -140,82 +205,142 @@
         .edit-button:hover {
             text-decoration: underline;
         }
+
+        /* Zmieniona definicja .reset-filters */
+        .reset-filters {
+            background-color: #0078d7;
+            color: white;
+            border: none;
+            padding: 10px 20px; 
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+
+            /* Zamiast display: block i margin: 10px auto; */
+            display: inline-block;
+            margin: 0; 
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <span class="user-icon">U</span>
-        <div class="hamburger-menu">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>
+    <header-component></header-component>
 
     <div class="container">
+        <!-- Przycisk "Reset Filters" został przeniesiony do sekcji .filters -->
         <div class="filters">
-            <input type="text" id="project-filter" placeholder="Search Projects" />
-            <input type="date" id="date-filter" />
-            <select id="status-filter" class="status-dropdown">
-                <option value="">Select Status</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Completed">Completed</option>
-                <option value="Pending">Pending</option>
-            </select>
+            <div class="filter-wrapper">
+                <input type="text" id="project-filter" placeholder="Search Projects" />
+                <button class="clear-filter" onclick="clearFilter('project-filter')">&times;</button>
+            </div>
+            <div class="filter-wrapper">
+                <input type="date" id="date-filter" />
+                <button class="clear-filter" onclick="clearFilter('date-filter')">&times;</button>
+            </div>
+            <div class="filter-wrapper">
+                <select id="status-filter" class="status-dropdown">
+                    <option value="">Select Status</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Pending">Pending</option>
+                </select>
+                <button class="clear-filter" onclick="clearFilter('status-filter')">&times;</button>
+            </div>
+
+            <!-- Przeniesiony przycisk Reset Filters -->
+            <button class="reset-filters" onclick="resetFilters()">Reset Filters</button>
         </div>
 
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-25</span>
-                <span class="project-name">Project Alpha</span>
+        <div id="tiles">
+            <div class="tile" data-project="Project Alpha" data-date="2023-12-25" data-status="In Progress">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-25</span>
+                    <span class="project-name">Project Alpha</span>
+                </div>
+                <span class="status-chip">In Progress</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">In Progress</span>
-            <button class="edit-button">✏️</button>
-        </div>
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-20</span>
-                <span class="project-name">Project Beta</span>
+            <div class="tile" data-project="Project Beta" data-date="2023-12-20" data-status="Completed">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-20</span>
+                    <span class="project-name">Project Beta</span>
+                </div>
+                <span class="status-chip">Completed</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">Completed</span>
-            <button class="edit-button">✏️</button>
-        </div>
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-18</span>
-                <span class="project-name">Project Gamma</span>
+            <div class="tile" data-project="Project Gamma" data-date="2023-12-18" data-status="Pending">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-18</span>
+                    <span class="project-name">Project Gamma</span>
+                </div>
+                <span class="status-chip">Pending</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">Pending</span>
-            <button class="edit-button">✏️</button>
-        </div>
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-15</span>
-                <span class="project-name">Project Delta</span>
+            <div class="tile" data-project="Project Delta" data-date="2023-12-15" data-status="In Progress">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-15</span>
+                    <span class="project-name">Project Delta</span>
+                </div>
+                <span class="status-chip">In Progress</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">In Progress</span>
-            <button class="edit-button">✏️</button>
-        </div>
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-10</span>
-                <span class="project-name">Project Epsilon</span>
+            <div class="tile" data-project="Project Epsilon" data-date="2023-12-10" data-status="Completed">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-10</span>
+                    <span class="project-name">Project Epsilon</span>
+                </div>
+                <span class="status-chip">Completed</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">Completed</span>
-            <button class="edit-button">✏️</button>
-        </div>
-        <div class="tile">
-            <div class="tile-content">
-                <span class="project-date">2023-12-05</span>
-                <span class="project-name">Project Zeta</span>
+            <div class="tile" data-project="Project Zeta" data-date="2023-12-05" data-status="Pending">
+                <div class="tile-content">
+                    <span class="project-date">2023-12-05</span>
+                    <span class="project-name">Project Zeta</span>
+                </div>
+                <span class="status-chip">Pending</span>
+                <button class="edit-button">✏️</button>
             </div>
-            <span class="status-chip">Pending</span>
-            <button class="edit-button">✏️</button>
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2024 Retsot</p>
-    </div>
+    <footer-component></footer-component>
+
+    <script>
+        document.getElementById('project-filter').addEventListener('input', filterTiles);
+        document.getElementById('date-filter').addEventListener('change', filterTiles);
+        document.getElementById('status-filter').addEventListener('change', filterTiles);
+
+        function filterTiles() {
+            const projectFilter = document.getElementById('project-filter').value.toLowerCase();
+            const dateFilter = document.getElementById('date-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+
+            document.querySelectorAll('.tile').forEach(tile => {
+                const project = tile.dataset.project.toLowerCase();
+                const date = tile.dataset.date;
+                const status = tile.dataset.status;
+
+                const matchesProject = project.includes(projectFilter);
+                const matchesDate = !dateFilter || date === dateFilter;
+                const matchesStatus = !statusFilter || status === statusFilter;
+
+                if (matchesProject && matchesDate && matchesStatus) {
+                    tile.style.display = '';
+                } else {
+                    tile.style.display = 'none';
+                }
+            });
+        }
+
+        function clearFilter(filterId) {
+            document.getElementById(filterId).value = '';
+            filterTiles();
+        }
+
+        function resetFilters() {
+            clearFilter('project-filter');
+            clearFilter('date-filter');
+            clearFilter('status-filter');
+        }
+    </script>
 </body>
 </html>
