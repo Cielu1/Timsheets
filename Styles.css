@@ -1,0 +1,303 @@
+/* ===================================
+   1) GLOBALNE STYLE WSPÓLNE
+      (obie strony mają to samo "body")
+=================================== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    /* Dopisane z Timesheets */
+    overflow-y: scroll;
+}
+
+/* ===================================
+   2) STYLES DLA MAIN PAGE
+      (była to .container, .logo, .button, itp.)
+      Zamiast .container => .container-mainpage
+=================================== */
+.container-mainpage {
+    text-align: center;
+    padding: 20px 10px; /* Reduced padding for more space */
+}
+
+.logo {
+    width: calc(100px * 4 + 20px * 3); /* Adjusted for four buttons */
+    height: 100px;
+    margin: 20px auto;
+    background-image: url('logo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button-text {
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* ===================================
+   3) STYLES DLA TIMESHEETS
+      Zamiast .container => .container-timesheets
+=================================== */
+.container-timesheets {
+  padding: 40px 15px 80px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* -------------------- FILTRY (Timesheets) -------------------- */
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: px; /* zachowane z oryginału */
+}
+
+.filters-separator {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+.status-filters {
+  display: flex;
+  flex-wrap: nowrap; 
+  gap: 10px;
+  align-items: center;
+  overflow-x: auto; 
+  padding-bottom: 5px;
+}
+
+.date-filters {
+  display: flex;
+  flex-wrap: nowrap; 
+  gap: 10px;
+  align-items: center;
+  overflow-x: auto; 
+  padding-bottom: 5px;
+}
+
+.chip {
+  flex-shrink: 0;
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: #f5f5f5;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.chip.active {
+  background-color: #0078d7;
+  color: white;
+  border-color: #005bb5;
+}
+.chip:hover {
+  background-color: #e0e0e0;
+}
+
+.custom-date-range {
+  display: none; 
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.custom-date-range label {
+  white-space: nowrap;
+}
+.custom-date-range input[type="date"] {
+  padding: 5px;
+  font-size: 14px;
+  min-width: 120px;
+}
+
+/* Global filter + Clear filters */
+.global-filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#global-filter {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.clear-filters-btn {
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.clear-filters-btn:hover {
+  background-color: #005bb5;
+}
+
+#tiles-container {
+  /* Jeżeli chcesz, aby kontener miał jakieś odstępy,
+     tło albo coś innego, możesz dopisać tutaj, np.: */
+  margin: 10px 0;
+  /* background-color: #f9f9f9; */
+}
+
+/* =========== TILES (lista projektów) =========== */
+#tiles-container .tile {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 30% auto 40px; 
+  column-gap: 15px;
+  align-items: center;
+}
+
+#tiles-container .tile-content {
+  display: flex;
+  flex-direction: column;
+}
+
+#tiles-container .project-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+#tiles-container .project-name {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Status chip (druga kolumna) */
+#tiles-container .status-chip {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  font-size: 14px;
+  padding: 7px 15px;
+  border-radius: 20px;
+  text-align: center;
+  justify-self: start;
+  width: 120px;
+}
+#tiles-container .status-chip.approved {
+  background-color: #6ea96e;
+}
+#tiles-container .status-chip.submitted {
+  background-color: #6c91d5;
+}
+#tiles-container .status-chip.draft {
+  background-color: #e8d36e;
+  color: black; 
+}
+
+/* Trzecia kolumna: Przycisk "✏️" */
+#tiles-container .edit-button {
+  background-color: transparent;
+  border: none;
+  color: #0078d7;
+  font-size: 16px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+}
+#tiles-container .edit-button:hover {
+  text-decoration: underline;
+}
+
+/* =====================================
+   TIMESHEETS EDIT (przeniesione style)
+===================================== */
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.container-edit {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.header {
+  background-color: #e0e0e0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.header-back {
+  font-size: 24px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.footer {
+  background-color: #e0e0e0;
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  font-size: 16px;
+  color: #555;
+}
