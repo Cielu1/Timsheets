@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Timesheet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timesheet Edit</title>
 
-  <!-- Wspólny plik ze stylami (Styles.css) -->
+  <!-- Odwołanie do wspólnego pliku ze stylami -->
   <link rel="stylesheet" href="Styles.css">
-
-  <!-- Nasz nowy plik JS, przeniesiony z <script type="module"> -->
-  <script type="module" src="JsTimesheetsEdit.js"></script>
 </head>
 <body>
-  <div class="header">
-    <a href="Timesheets.html" class="header-back">&#8592;</a>
-    <span class="header-title">Edit Timesheet</span>
-    <div></div>
+  <!-- Nagłówek -->
+  <header-component></header-component>
+
+
+  <!-- Stopka -->
+  <footer-component></footer-component>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- Odwołanie do pliku z definicją nagłówka -->
+  <script src="firebase-config.js"></script>
+  <script src="JsTimesheetsEdit.js"></script>
+
+
+  <div id="tasks-container" class="container-tasks">
+    <!-- Taski będą dynamicznie generowane tutaj -->
   </div>
 
-  <div class="container">
-    <div id="task-name" class="info">Loading task name...</div>
-    <div id="task-start" class="info">Loading task start...</div>
-    <div id="task-end" class="info">Loading task end...</div>
+  <button class="add-button" onclick="openPopup()"></button>
+
+  
+
+  <div id="custom-popup" class="custom-popup hidden">
+    <div class="popup-header">
+      <span class="popup-title">Add New Task</span>
+      <div class="popup-close" onclick="closePopup()">×</div>
+    </div>
+    <div class="popup-body">
+      <form id="addTaskForm">
+        <input type="text" id="taskName" placeholder="Task Name" required />
+        <input type="datetime-local" id="taskStart" required />
+        <input type="datetime-local" id="taskEnd" required />
+        <textarea id="taskDescription" placeholder="Task Description" rows="4"></textarea>
+        <div class="popup-footer">
+          <button type="submit">Save Task</button>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <div class="footer">
-    <p>&copy; 2023 Your Company</p>
-  </div>
+
 </body>
 </html>

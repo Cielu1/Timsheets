@@ -75,7 +75,7 @@ body {
 .filter-section {
   display: flex;
   flex-direction: column;
-  gap: px; /* zachowane z oryginału */
+  gap: 0px; /* zachowane z oryginału */
 }
 
 .filters-separator {
@@ -301,3 +301,165 @@ body {
   font-size: 16px;
   color: #555;
 }
+
+.add-button {
+  width: 50px;
+  height: 50px;
+  background-color: #0078d7;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  position: fixed;
+  bottom: 70px;
+  right: 50px;
+  z-index: 1000;
+}
+
+.add-button::before {
+  content: '+';
+}
+
+.add-button:hover {
+  background-color: #005bb5;
+}
+
+/* CSS dla tasków na stronie Edit Timesheet */
+
+.container-tasks {
+  padding: 40px 15px 80px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.timesheet-task {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 30% auto 40px; 
+  column-gap: 15px;
+  align-items: center;
+}
+
+.task-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.task-time {
+  font-size: 14px;
+  color: #666;
+}
+/* Overlay dla popupu */
+.custom-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ukrywanie popupu */
+.hidden {
+  display: none;
+}
+
+/* Treść popupu */
+.popup-body {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* Nagłówek popupu */
+.popup-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.popup-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.popup-close {
+  font-size: 20px;
+  font-weight: bold;
+  color: #0078d7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.popup-close:hover {
+  background-color: #d0d0d0;
+}
+
+/* Form w popupie */
+form input,
+form textarea {
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 16px;
+  width: calc(100% - 20px); /* Zmniejszenie o 10px z każdej strony */
+  box-sizing: border-box; /* Uwzględnienie paddingu w szerokości */
+}
+
+form textarea {
+  resize: none;
+}
+
+.popup-footer {
+  display: flex;
+  justify-content: flex-start; /* Przycisk wyrównany do lewej */
+  margin-top: 10px;
+  padding: 0px;
+}
+
+form button {
+  background-color: #0078d7;
+  color: white;
+  border: none;
+  width: 40%;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+form button:hover {
+  background-color: #005bb5;
+}
+

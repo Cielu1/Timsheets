@@ -12,31 +12,40 @@ const db = firebase.firestore(app);
 
 async function loadTimesheets() {
   try {
-    // Referencja do kolekcji "Timesheets"
+    const container = document.getElementById("tiles-container");
+
+    // Sprawdzamy, czy kafelki są w cache
+    const cachedTiles = sessionStorage.getItem("timesheets");
+    if (cachedTiles) {
+      // Jeśli cache istnieje, odtwarzamy kafelki
+      const tilesData = JSON.parse(cachedTiles);
+      tilesData.forEach(({ Status, FirestoreDate, TimesheetID, ProjectName }) => {
+        createTile(container, Status, new Date(FirestoreDate), TimesheetID, ProjectName);
+      });
+      console.log("Dane załadowane z cache.");
+      return;
+    }
+
+    // Jeśli cache nie istnieje, pobieramy dane z Firestore
+    console.log("Ładowanie danych z Firestore...");
     const timesheetsRef = db.collection("Timesheets");
     const timesheetsSnapshot = await timesheetsRef.get();
 
-    // Szukamy w dokumencie HTML jakiegoś kontenera na kafelki
-    // np. <div id="tiles-container"></div>
-    const container = document.getElementById("tiles-container");
+    const tilesData = []; // Tablica do zapisania danych do cache
 
-    // Zwróć uwagę: timesheetsSnapshot.docs to tablica dokumentów
     for (const timesheetDoc of timesheetsSnapshot.docs) {
       const timesheetData = timesheetDoc.data();
-      const { Status, Date, RotationID } = timesheetData;
+      const timesheetId = timesheetDoc.id;
+      const { Status, Date: FirestoreDate, RotationID } = timesheetData;
 
       let projectName = "";
 
-      // rotationSnap – dokument w kolekcji "Rotations" 
-      // (RotationID w Firebase jest polem typu DocumentReference, 
-      //  więc żeby się do niego dostać, wystarczy rotationRef.get())
       if (RotationID) {
-        const rotationSnap = await RotationID.get(); 
+        const rotationSnap = await RotationID.get();
         if (rotationSnap.exists) {
           const rotationData = rotationSnap.data();
           const { RefProjectID } = rotationData;
 
-          // projectSnap – dokument w kolekcji "Projects" 
           if (RefProjectID) {
             const projectSnap = await RefProjectID.get();
             if (projectSnap.exists) {
@@ -47,15 +56,24 @@ async function loadTimesheets() {
         }
       }
 
-      // Mając Status, Date i projectName, tworzymy kafelek
-      createTile(container, Status, Date, projectName);
-     // createTile(container, "Approved", "2024-12-24", "Project Gamma");
+      // Konwersja daty na ISO
+      const formattedDate = FirestoreDate?.toDate?.().toISOString() || "Unknown Date";
+
+      // Zapisujemy dane kafelka w tablicy
+      tilesData.push({ Status, FirestoreDate: formattedDate, TimesheetID: timesheetId, ProjectName: projectName });
+
+      // Tworzymy kafelek
+      createTile(container, Status, new Date(formattedDate), timesheetId, projectName);
     }
 
+    // Zapisujemy dane kafelków w cache
+    sessionStorage.setItem("timesheets", JSON.stringify(tilesData));
+    console.log("Dane zapisane w cache.");
   } catch (error) {
     console.error("Błąd przy wczytywaniu Timesheets:", error);
   }
 }
+
 
 
 async function fetchAndLogFirestoreData() {
@@ -78,6 +96,8 @@ async function fetchAndLogFirestoreData() {
   }
 }
 
+
+
 // Wywołanie funkcji
 fetchAndLogFirestoreData();
 
@@ -86,57 +106,39 @@ fetchAndLogFirestoreData();
  * Ustawiamy data-status, data-date i data-project,
  * aby Twoja logika filtrów mogła z nich korzystać.
  */
-function createTile(containerElement, status, date, projectName) {
-  
-    // Sprawdzamy, czy `date` jest obiektem Timestamp
-    if (date && typeof date.toDate === "function") {
-      formattedDate = date.toDate().toISOString().split('T')[0];
-    } else if (typeof date === "string") {
-      // Jeśli `date` to string, przyjmujemy, że już jest w formacie `YYYY-MM-DD`
-      formattedDate = date;
-    } else {
-      // Jeśli `date` jest czymś innym (null, undefined itp.)
-      formattedDate = "Unknown Date";
-    }
+function createTile(containerElement, status, date, timesheetId, projectName) {
+  let formattedDate;
 
-  // Tworzymy div z klasą .tile
+  if (date instanceof Date) {
+    formattedDate = date.toISOString().split("T")[0];
+  } else if (typeof date === "string") {
+    formattedDate = date;
+  } else {
+    formattedDate = "Unknown Date";
+  }
+
   const tile = document.createElement("div");
   tile.classList.add("tile");
-
- 
-
-  // Ustawiamy dataset zgodnie z Twoją logiką filtrów
   tile.dataset.status = status;
   tile.dataset.date = formattedDate;
   tile.dataset.project = projectName;
+  tile.dataset.timesheetId = timesheetId;
 
-  // Zawartość kafelka
   tile.innerHTML = `
-  <div class="tile-content">
-    <!-- Tu data i nazwa projektu -->
-    <span class="project-date">${formattedDate}</span>
-    <span class="project-name">${projectName}</span>
-  </div>
+    <div class="tile-content">
+      <span class="project-date">${formattedDate}</span>
+      <span class="project-name">${projectName}</span>
+    </div>
+    <span class="status-chip ${status.toLowerCase()}">${status}</span>
+    <button class="edit-button" onclick="navigateToEdit(this)">✏️</button>
+  `;
 
-  <!-- Status chip (jeśli masz .status-chip w CSS) -->
-  <span class="status-chip ${status.toLowerCase()}">${status}</span>
-
-  <!-- Przycisk edycji -->
-  <button class="edit-button" onclick="navigateToEdit(this)">✏️</button>
-`;
-
-  // Dodaj kafelek do kontenera
   containerElement.appendChild(tile);
 }
 
-/* 
-  Na koniec – wywołujemy loadTimesheets() po załadowaniu strony 
-  (lub w dogodnym momencie).
-*/
 window.addEventListener("DOMContentLoaded", () => {
   loadTimesheets();
 });
-
 /* ===================================
    Web Components: Header & Footer
    + navigateToEdit(button)
@@ -225,10 +227,22 @@ customElements.define('footer-component', FooterComponent);
  */
 function navigateToEdit(button) {
   const tile = button.closest('.tile');
-  const projectName = tile.dataset.project;
-  const projectDate = tile.dataset.date;
-  const url = `TimesheetsEdit.html?date=${encodeURIComponent(projectDate)}&project=${encodeURIComponent(projectName)}`;
-  window.location.href = url;
+  const timesheetId = tile.dataset.timesheetId;
+
+  // Przechowywanie ID w sessionStorage
+  sessionStorage.setItem("timesheetId", timesheetId);
+
+  // Przekierowanie do strony bez kodowania w URL
+  window.location.href = "TimesheetsEdit.html";
+}
+
+
+
+
+
+function AddNewTimesheet() {
+  console.log("Add New Timesheet clicked");
+ 
 }
 
 
