@@ -1,226 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tabbed Navigation</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #f5f5f5;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #333;
-      width: 100%;
-      padding: 10px 0;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      padding: 10px 20px;
-    }
-
-    nav a:hover, nav a.active {
-      background-color: #555;
-      border-radius: 5px;
-    }
-
-    .tab-content {
-      display: none;
-      width: 100%;
-      margin: 20px auto;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    #about h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .about-container {
-      display: flex;
-      flex-direction: column;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-      gap: 20px;
-    }
-
-    .about-description {
-      text-align: justify;
-      font-size: 1.2rem;
-      color: #666;
-      line-height: 1.8;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-
-    .about-columns {
-      display: flex;
-      gap: 40px;
-      justify-content: space-between;
-      align-items: stretch;
-    }
-
-    .features-container {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .feature {
-      flex: 1;
-      text-align: left;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      background-color: white;
-    }
-
-    .feature h2 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .feature p {
-      font-size: 1.1rem;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .about-image {
-      flex: 1;
-      display: flex;
-      align-items: stretch;
-    }
-
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      object-fit: cover;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Kontener w sekcji Demo:
-       - aspect-ratio 9:16 (szerokość:wysokość)
-       - maks. wysokość 80% okna przeglądarki
-    */
-    #demo-container {
-      position: relative;
-      aspect-ratio: 9 / 16;  /* 9 szerokości : 16 wysokości */
-      max-height: 80vh;      /* Ograniczenie do 80% wysokości ekranu */
-      width: auto;           /* szerokość będzie wyliczana z aspect-ratio */
-      margin: 0 auto;        /* wyśrodkuj w poziomie */
-      background: #f0f0f0;
-      border-radius: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-    }
-
-    #demo-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    @media (max-width: 768px) {
-      .about-columns {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .about-image {
-        width: 100%;
-        height: auto;
-      }
-
-      #demo-container {
-        max-height: 60vh; /* Zmniejszenie maks. wysokości na małych ekranach */
-      }
-    }
-  </style>
-</head>
-<body>
-  <nav>
-    <a href="#about" class="tab-link active" onclick="showTab('about')">About</a>
-    <a href="#demo" class="tab-link" onclick="showTab('demo')">Demo</a>
-    <a href="#api" class="tab-link" onclick="showTab('api')">API</a>
-  </nav>
-
-  <div id="about" class="tab-content active">
-    <h1>About</h1>
-    <div class="about-container">
-      <div class="about-description">
-        This application is designed for field technicians working on wind farms. 
-        It helps them stay organized, track their work, and get access to essential 
-        information quickly and effortlessly, even while on the move.
-      </div>
-      <div class="about-columns">
-        <div class="features-container">
-          <div class="feature">
-            <h2>Travel Schedule</h2>
-            <p>Get a clear view of your travel plans, including dates, destinations, and logistics, so you're always prepared for your next trip.</p>
-          </div>
-          <div class="feature">
-            <h2>Assigned Equipment</h2>
-            <p>Check the tools and equipment assigned specifically to you, ensuring you always have what you need to get the job done.</p>
-          </div>
-          <div class="feature">
-            <h2>Work Hours</h2>
-            <p>Easily log and track your working hours with an intuitive interface, ensuring accurate timesheets for your records.</p>
-          </div>
-        </div>
-        <div class="about-image">
-          <img src="windtechnician.png" alt="Field Technician on Wind Farm">
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | My project</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
         </div>
       </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">My project</div>
+      </div>
     </div>
-  </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
 
-  <div id="demo" class="tab-content">
-    <div id="demo-container">
-      <iframe src="MainPage.html"></iframe>
-    </div>
-  </div>
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
 
-  <div id="api" class="tab-content">
-    <h1>API</h1>
-    <p>This is the API page content.</p>
-  </div>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/POC.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/POC.data.br",
+        frameworkUrl: buildUrl + "/POC.framework.js.br",
+        codeUrl: buildUrl + "/POC.wasm.br",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "My project",
+        productVersion: "0.1.0",
+        showBanner: unityShowBanner,
+        // errorHandler: function(err, url, line) {
+        //    alert("error " + err + " occurred at line " + line);
+        //    // Return 'true' if you handled this error and don't want Unity
+        //    // to process it further, 'false' otherwise.
+        //    return true;
+        // },
+      };
 
-  <script>
-    function showTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelectorAll('.tab-link').forEach(link => {
-        link.classList.remove('active');
-      });
-      document.getElementById(tabId).classList.add('active');
-      document.querySelector(`a[href="#${tabId}"]`).classList.add('active');
-    }
-  </script>
-</body>
+      // By default, Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
+      // If you would like all file writes inside Unity Application.persistentDataPath
+      // directory to automatically persist so that the contents are remembered when
+      // the user revisits the site the next time, uncomment the following line:
+      // config.autoSyncPersistentDataPath = true;
+      // This autosyncing is currently not the default behavior to avoid regressing
+      // existing user projects that might rely on the earlier manual
+      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
+      // expected to change.
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
+
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+              }).then((unityInstance) => {
+                document.querySelector("#unity-loading-bar").style.display = "none";
+                document.querySelector("#unity-fullscreen-button").onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
+      document.body.appendChild(script);
+
+    </script>
+  </body>
 </html>
