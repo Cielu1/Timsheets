@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timesheet Edit</title>
+
+  <!-- Odwołanie do wspólnego pliku ze stylami -->
+  <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+  <!-- Nagłówek -->
+  <header-component></header-component>
+
+
+  <!-- Stopka -->
+  <footer-component></footer-component>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <!-- Odwołanie do pliku z definicją nagłówka -->
+  <script src="firebase-config.js"></script>
+  <script src="JsTimesheetsEdit.js"></script>
+
+
+  <div id="tasks-container" class="container-tasks">
+    <!-- Taski będą dynamicznie generowane tutaj -->
+  </div>
+
+  <button class="add-button" onclick="openPopup()"></button>
+
+  
+
+  <div id="custom-popup" class="custom-popup hidden">
+    <div class="popup-header">
+      <span class="popup-title">Add New Task</span>
+      <div class="popup-close" onclick="closePopup()">×</div>
+    </div>
+    <div class="popup-body">
+      <form id="addTaskForm">
+        <input type="text" id="taskName" placeholder="Task Name" required />
+        <input type="datetime-local" id="taskStart" required />
+        <input type="datetime-local" id="taskEnd" required />
+        <textarea id="taskDescription" placeholder="Task Description" rows="4"></textarea>
+        <div class="popup-footer">
+          <button type="submit">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+</body>
+</html>

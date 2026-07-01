@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Task</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, textarea, button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New Task</h1>
+    <form id="addTaskForm">
+      <input type="text" id="taskName" placeholder="Task Name" required />
+      <input type="datetime-local" id="taskStart" required />
+      <input type="datetime-local" id="taskEnd" required />
+      <textarea id="taskDescription" placeholder="Task Description" rows="4"></textarea>
+      <button type="submit">Save Task</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("addTaskForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Pobierz wartości z formularza
+      const taskName = document.getElementById("taskName").value;
+      const taskStart = document.getElementById("taskStart").value;
+      const taskEnd = document.getElementById("taskEnd").value;
+      const taskDescription = document.getElementById("taskDescription").value;
+
+      // Walidacja danych
+      if (new Date(taskStart) >= new Date(taskEnd)) {
+        alert("Task Start must be before Task End.");
+        return;
+      }
+
+      // Przekaż dane do głównej strony
+      const taskData = { taskName, taskStart, taskEnd, taskDescription };
+      window.opener.postMessage(taskData, "*");
+
+      // Zamknij popup
+      window.close();
+    });
+  </script>
+</body>
+</html>
